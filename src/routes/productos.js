@@ -38,6 +38,16 @@ router.post("/productos/existencia/:id",(req,res)=>{
 });
 
 
+//consultar solo un producto 
+
+router.get("/productos/:id",(req,res)=>{
+    const { id }=req.params;
+    productos
+        .findById(id)
+        .then((data)=> res.json(data))
+        .catch((error)=> res.json({message: error}));
+});
+
 //consultar
 router.get('/productos',(req,res)=>{
     productos.aggregate([
