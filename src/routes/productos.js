@@ -14,7 +14,7 @@ router.post("/productos",(req,res)=>{
 
 //disminuir disponibilidad
 
-router.post("/products/existencia/:id",(req,res)=>{
+router.post("/productos/existencia/:id",(req,res)=>{
   const { id } = req.params;
   const { cantidad } = req.body;
   productos.findOne({_id:id})
