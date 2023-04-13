@@ -11,6 +11,33 @@ router.post("/productos",(req,res)=>{
                 .catch((error)=>res.json({message:error}));
 });
 
+
+//disminuir disponibilidad
+
+router.post("/products/existencia/:id",(req,res)=>{
+  const { id } = req.params;
+  const { cantidad } = req.body;
+  productos.findOne({_id:id})
+      .then((producto)=>{
+        if(producto){
+          const existencia_actual = producto.disponibilidad
+          const existencia_nueva = existencia_actual- cantidad  
+          const updateQuery = {$set:{disponibilidad: existencia_nueva}};
+          return productos.updateOne({_id:id}, updateQuery)
+            .then(() => {
+              res.json({message: "La existencia se actualizó correctamente"});
+            })
+            .catch((error) => {
+              res.json({message: error});
+            });
+        }else{
+          res.json({message: "No se encontró el producto con el id proporcionado"});
+        }
+      })
+      .catch((error)=> res.json({message: error}));
+});
+
+
 //consultar
 router.get('/productos',(req,res)=>{
     productos.aggregate([
